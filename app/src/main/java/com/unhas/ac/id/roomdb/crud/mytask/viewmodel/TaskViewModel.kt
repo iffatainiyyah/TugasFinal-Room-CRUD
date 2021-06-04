@@ -69,14 +69,19 @@ class TaskViewModel(private val repository: TaskRepository): ViewModel(), Observ
         }
     }
 
+    private fun taskForms() {
+        inputName.value = null
+        inputDate.value = null
+        taskIsUpdateDelete = false
+        saveOrUpdateButtonText.value = "Save"
+        clearAllOrDeleteButtonText.value = "Clear All"
+    }
+
+
     fun update(task: Task) = viewModelScope.launch {
         val numbOfUp = repository.update(task)
         if (numbOfUp > 0) {
-            inputName.value = null
-            inputDate.value = null
-            taskIsUpdateDelete = false
-            saveOrUpdateButtonText.value = "Save"
-            clearAllOrDeleteButtonText.value = "Clear All"
+            taskForms()
 
             statusMessage.value = TaskEvent("$numbOfUp Task updated successfully")
         } else {
@@ -89,11 +94,7 @@ class TaskViewModel(private val repository: TaskRepository): ViewModel(), Observ
     fun delete(task: Task) = viewModelScope.launch {
         val numbOfDel = repository.delete(task)
         if (numbOfDel > 0) {
-            inputName.value = null
-            inputDate.value = null
-            taskIsUpdateDelete = false
-            saveOrUpdateButtonText.value = "Save"
-            clearAllOrDeleteButtonText.value = "Clear All"
+            taskForms()
 
             statusMessage.value = TaskEvent("$numbOfDel Task deleted successfully")
         } else {
