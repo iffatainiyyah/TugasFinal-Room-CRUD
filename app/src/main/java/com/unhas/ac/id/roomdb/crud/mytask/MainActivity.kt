@@ -6,6 +6,8 @@ import android.util.Log
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.unhas.ac.id.roomdb.crud.mytask.adapter.TaskAdapter
 import com.unhas.ac.id.roomdb.crud.mytask.databinding.ActivityMainBinding
 import com.unhas.ac.id.roomdb.crud.mytask.db.TaskDB
 import com.unhas.ac.id.roomdb.crud.mytask.db.TaskRepository
@@ -24,14 +26,20 @@ class MainActivity : AppCompatActivity() {
         val repository = TaskRepository(dao)
         val factory = TaskViewModelFactory(repository)
         taskViewModel = ViewModelProvider(this, factory).get(TaskViewModel::class.java)
-        binding.myViewModel = taskViewModel
+        binding.myTask = taskViewModel
         binding.lifecycleOwner = this
+        initRecyclerView()
+    }
+
+    private fun initRecyclerView() {
+        binding.taskRV.layoutManager = LinearLayoutManager(this)
         displayTaskList()
     }
 
     private fun displayTaskList() {
         taskViewModel.task.observe(this, Observer {
             Log.i("MyTaskTag", it.toString())
+            binding.taskRV.adapter = TaskAdapter(it)
         })
     }
 }
