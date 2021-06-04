@@ -1,18 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    >
+    <data>
+        <variable
+            name="myTask"
+            type="com.unhas.ac.id.roomdb.crud.mytask.viewmodel.TaskViewModel" />
+    </data>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="15dp"
+        android:orientation="vertical"
+        tools:context=".MainActivity"
+        >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <EditText
+            android:id="@+id/name_task"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:layout_marginBottom="5dp"
+            android:ems="10"
+            android:text="@={myTask.inputName}"
+            android:hint="Task's name"
+            android:inputType="textPersonName" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <EditText
+            android:id="@+id/date_task"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:ems="10"
+            android:text="@={myTask.inputDate}"
+            android:hint="date/desc"
+            android:inputType="textPersonName" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/saveupdate_btn"
+                android:layout_width="20sp"
+                android:layout_height="50sp"
+                android:layout_weight="1"
+                android:text="@={myTask.saveOrUpdateButtonText}"
+                android:onClick="@{()->myTask.saveOrUpdate()}"
+                android:textSize="15sp" />
+
+            <Button
+                android:id="@+id/delete_btn"
+                android:layout_width="20sp"
+                android:layout_height="50sp"
+                android:layout_weight="1"
+                android:layout_marginLeft="7dp"
+                android:text="@={myTask.clearAllOrDeleteButtonText}"
+                android:onClick="@{()->myTask.clearAllOrDelete()}"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/taskRV"
+            android:layout_margin="5dp"
+            />
+    </LinearLayout>
+</layout>
