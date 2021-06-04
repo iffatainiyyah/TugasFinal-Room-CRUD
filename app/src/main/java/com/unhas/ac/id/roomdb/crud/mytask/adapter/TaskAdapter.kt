@@ -9,8 +9,11 @@ import com.unhas.ac.id.roomdb.crud.mytask.databinding.ListitemTaskBinding
 import com.unhas.ac.id.roomdb.crud.mytask.db.Task
 
 
-class TaskAdapter(private val taskList: List<Task>, private val clickListener: (Task)->Unit)
+class TaskAdapter(private val clickListener: (Task)->Unit)
     : RecyclerView.Adapter<TaskViewHolder>() {
+
+    private val taskList = ArrayList<Task>()
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding: ListitemTaskBinding = DataBindingUtil.inflate(layoutInflater, R.layout.listitem_task, parent, false)
@@ -23,6 +26,11 @@ class TaskAdapter(private val taskList: List<Task>, private val clickListener: (
 
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
         holder.bind(taskList[position], clickListener)
+    }
+
+    fun setTaskList(task: List<Task>) {
+        taskList.clear()
+        taskList.addAll(task)
     }
 
 }
