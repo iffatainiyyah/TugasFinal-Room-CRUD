@@ -12,6 +12,8 @@ import kotlinx.coroutines.launch
 class TaskViewModel(private val repository: TaskRepository): ViewModel(), Observable {
 
     val task= repository.task
+    private var taskIsUpdateDelete = false
+    private lateinit var taskToUpdateDelete: Task
 
     @Bindable
     val inputName = MutableLiveData<String>()
@@ -51,6 +53,15 @@ class TaskViewModel(private val repository: TaskRepository): ViewModel(), Observ
 
     fun clearAll() = viewModelScope.launch {
         repository.deleteAll()
+    }
+
+    fun initUpdateAndDelete(task: Task) {
+        inputName.value = task.name
+        inputDate.value = task.date
+        taskIsUpdateDelete = true
+        taskToUpdateDelete = task
+        saveOrUpdateButtonText.value = "Update"
+        clearAllOrDeleteButtonText.value = "Delete"
     }
 
     override fun removeOnPropertyChangedCallback(callback: Observable.OnPropertyChangedCallback?) {
