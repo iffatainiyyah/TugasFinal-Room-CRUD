@@ -40,7 +40,11 @@ class TaskViewModel(private val repository: TaskRepository): ViewModel(), Observ
     }
 
     fun clearAllOrDelete() {
-        clearAll()
+        if (taskIsUpdateDelete) {
+            delete(taskToUpdateDelete)
+        } else {
+            clearAll()
+        }
     }
 
     fun insert(task: Task) = viewModelScope.launch {
@@ -49,6 +53,11 @@ class TaskViewModel(private val repository: TaskRepository): ViewModel(), Observ
 
     fun delete(task: Task) = viewModelScope.launch {
         repository.delete(task)
+        inputName.value = null
+        inputDate.value = null
+        taskIsUpdateDelete = false
+        saveOrUpdateButtonText.value = "Save"
+        clearAllOrDeleteButtonText.value = "Clear All"
     }
 
     fun clearAll() = viewModelScope.launch {

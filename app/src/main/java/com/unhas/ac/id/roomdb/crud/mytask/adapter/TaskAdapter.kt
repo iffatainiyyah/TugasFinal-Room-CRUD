@@ -4,7 +4,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.unhas.ac.id.roomdb.crud.mytask.R
+import com.unhas.ac.id.roomdb.crud.mytask.databinding.ListItemBinding
+import com.unhas.ac.id.roomdb.crud.mytask.R 
 import com.unhas.ac.id.roomdb.crud.mytask.db.Task
 
 
