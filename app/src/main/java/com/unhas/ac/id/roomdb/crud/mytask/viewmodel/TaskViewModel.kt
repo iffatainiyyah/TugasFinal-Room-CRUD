@@ -1,5 +1,7 @@
 package com.unhas.ac.id.roomdb.crud.mytask.viewmodel
 
+import android.provider.SyncStateContract.Helpers.insert
+import android.provider.SyncStateContract.Helpers.update
 import androidx.databinding.Bindable
 import androidx.databinding.Observable
 import androidx.lifecycle.MutableLiveData
@@ -8,6 +10,7 @@ import androidx.lifecycle.viewModelScope
 import com.unhas.ac.id.roomdb.crud.mytask.db.Task
 import com.unhas.ac.id.roomdb.crud.mytask.db.TaskRepository
 import kotlinx.coroutines.launch
+import java.nio.file.Files.delete
 
 class TaskViewModel(private val repository: TaskRepository): ViewModel(), Observable {
 
@@ -30,11 +33,17 @@ class TaskViewModel(private val repository: TaskRepository): ViewModel(), Observ
     }
 
     fun saveOrUpdate() {
-        val name = inputName.value!!
-        val date = inputDate.value!!
+        if (taskIsUpdateDelete) {
+            taskToUpdateDelete.name = inputName.value!!
+            taskToUpdateDelete.date = inputDate.value !!
+            update(taskToUpdateDelete)
+        } else {
+            val name = inputName.value!!
+            val date = inputDate.value!!
 
-        insert(Task(0, name, date))
 
+            insert(Task(0, name, date))
+        }
         inputName.value = null
         inputDate.value = null
     }
@@ -49,6 +58,15 @@ class TaskViewModel(private val repository: TaskRepository): ViewModel(), Observ
 
     fun insert(task: Task) = viewModelScope.launch {
         repository.insert(task)
+    }
+
+    fun update(task: Task) = viewModelScope.launch {
+        repository.update(task)
+        inputName.value = null
+        inputDate.value = null
+        taskIsUpdateDelete = false
+        saveOrUpdateButtonText.value = "Save"
+        clearAllOrDeleteButtonText.value = "Clear All"
     }
 
     fun delete(task: Task) = viewModelScope.launch {

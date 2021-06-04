@@ -12,8 +12,8 @@ data class Task (
     val Id: Int,
 
     @ColumnInfo(name = "name")
-    val name: String,
+    var name: String,
 
     @ColumnInfo(name = "date")
-    val date: String
+    var date: String
 )
