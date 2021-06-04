@@ -4,10 +4,9 @@ import android.provider.SyncStateContract.Helpers.insert
 import android.provider.SyncStateContract.Helpers.update
 import androidx.databinding.Bindable
 import androidx.databinding.Observable
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.unhas.ac.id.roomdb.crud.mytask.db.Task
+import com.unhas.ac.id.roomdb.crud.mytask.db.TaskEvent
 import com.unhas.ac.id.roomdb.crud.mytask.db.TaskRepository
 import kotlinx.coroutines.launch
 import java.nio.file.Files.delete
@@ -26,6 +25,11 @@ class TaskViewModel(private val repository: TaskRepository): ViewModel(), Observ
     val saveOrUpdateButtonText = MutableLiveData<String>()
     @Bindable
     val clearAllOrDeleteButtonText = MutableLiveData<String>()
+
+    private val statusMessage = MutableLiveData<TaskEvent<String>>()
+
+    val message: LiveData<TaskEvent<String>>
+        get() = statusMessage
 
     init {
         saveOrUpdateButtonText.value = "Save"
@@ -58,6 +62,7 @@ class TaskViewModel(private val repository: TaskRepository): ViewModel(), Observ
 
     fun insert(task: Task) = viewModelScope.launch {
         repository.insert(task)
+        statusMessage.value = TaskEvent("Task inserted successfully")
     }
 
     fun update(task: Task) = viewModelScope.launch {
@@ -67,6 +72,8 @@ class TaskViewModel(private val repository: TaskRepository): ViewModel(), Observ
         taskIsUpdateDelete = false
         saveOrUpdateButtonText.value = "Save"
         clearAllOrDeleteButtonText.value = "Clear All"
+        statusMessage.value = TaskEvent("Task updated successfully")
+
     }
 
     fun delete(task: Task) = viewModelScope.launch {
@@ -76,10 +83,12 @@ class TaskViewModel(private val repository: TaskRepository): ViewModel(), Observ
         taskIsUpdateDelete = false
         saveOrUpdateButtonText.value = "Save"
         clearAllOrDeleteButtonText.value = "Clear All"
+        statusMessage.value = TaskEvent("Task deleted successfully")
     }
 
     fun clearAll() = viewModelScope.launch {
         repository.deleteAll()
+        statusMessage.value = TaskEvent("All task deleted successfully")
     }
 
     fun initUpdateAndDelete(task: Task) {

@@ -26,7 +26,6 @@ class TaskAdapter(private val taskList: List<Task>, private val clickListener: (
     }
 
 }
-
 class TaskViewHolder(val binding: ListItemBinding): RecyclerView.ViewHolder(binding.root) {
     fun bind(task: Task, clickListener: (Task)->Unit) {
         binding.nameTextView.text = task.name

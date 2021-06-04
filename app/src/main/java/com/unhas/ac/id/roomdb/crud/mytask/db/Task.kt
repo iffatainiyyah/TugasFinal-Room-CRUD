@@ -9,7 +9,7 @@ data class Task (
     @PrimaryKey(autoGenerate = true)
 
     @ColumnInfo(name = "id")
-    val Id: Int,
+    var Id: Int,
 
     @ColumnInfo(name = "name")
     var name: String,

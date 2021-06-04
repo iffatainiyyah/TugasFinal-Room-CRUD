@@ -31,6 +31,12 @@ class MainActivity : AppCompatActivity() {
         binding.myTask = taskViewModel
         binding.lifecycleOwner = this
         initRecyclerView()
+
+        taskViewModel.message.observe(this, Observer {
+            it.getContentIfNotHandled()?.let {
+                Toast.makeText(this, it, Toast.LENGTH_LONG).show()
+            }
+        })
     }
 
     private fun initRecyclerView() {
