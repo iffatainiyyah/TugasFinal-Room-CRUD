@@ -7,16 +7,16 @@ import androidx.room.*
 interface TaskDAO {
 
     @Insert
-    suspend fun insertTask(task: Task)
+    suspend fun insertTask(task: Task): Long
 
     @Update
-    suspend fun updateTask(task: Task)
+    suspend fun updateTask(task: Task): Int
 
     @Delete
-    suspend fun deleteTask(task: Task)
+    suspend fun deleteTask(task: Task): Int
 
     @Query(value = "delete from task_table")
-    suspend fun deleteAll()
+    suspend fun deleteAll(): Int
 
     @Query(value = "select * from task_table")
     fun getAllTask(): LiveData<List<Task>>
