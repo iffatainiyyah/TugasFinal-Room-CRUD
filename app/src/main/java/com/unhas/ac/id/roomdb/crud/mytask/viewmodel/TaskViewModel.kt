@@ -20,7 +20,7 @@ class TaskViewModel(private val repository: TaskRepository): ViewModel(), Observ
     @Bindable
     val inputName = MutableLiveData<String>()
     @Bindable
-    val inputDate = MutableLiveData<String>()
+    val inputDesc = MutableLiveData<String>()
     @Bindable
     val saveOrUpdateButtonText = MutableLiveData<String>()
     @Bindable
@@ -39,17 +39,20 @@ class TaskViewModel(private val repository: TaskRepository): ViewModel(), Observ
     fun saveOrUpdate() {
         if (taskIsUpdateDelete) {
             taskToUpdateDelete.name = inputName.value!!
-            taskToUpdateDelete.date = inputDate.value !!
+            taskToUpdateDelete.desc = inputDesc.value !!
             update(taskToUpdateDelete)
         } else {
             val name = inputName.value!!
-            val date = inputDate.value!!
+            val desc = inputDesc.value!!
 
 
-            insert(Task(0, name, date))
+
+            insert(Task(0, name, desc))
         }
         inputName.value = null
-        inputDate.value = null
+        inputDesc.value = null
+
+
     }
 
     fun clearAllOrDelete() {
@@ -62,7 +65,7 @@ class TaskViewModel(private val repository: TaskRepository): ViewModel(), Observ
 
     fun insert(task: Task) = viewModelScope.launch {
         val newRows = repository.insert(task)
-        if (newRows> -1) {
+        if (newRows> - 1) {
             statusMessage.value = TaskEvent("Task inserted successfully $newRows")
         } else {
             statusMessage.value = TaskEvent("Error occurred!")
@@ -71,7 +74,7 @@ class TaskViewModel(private val repository: TaskRepository): ViewModel(), Observ
 
     private fun taskForms() {
         inputName.value = null
-        inputDate.value = null
+        inputDesc.value = null
         taskIsUpdateDelete = false
         saveOrUpdateButtonText.value = "Save"
         clearAllOrDeleteButtonText.value = "Clear All"
@@ -114,7 +117,7 @@ class TaskViewModel(private val repository: TaskRepository): ViewModel(), Observ
 
     fun initUpdateAndDelete(task: Task) {
         inputName.value = task.name
-        inputDate.value = task.date
+        inputDesc.value = task.desc
         taskIsUpdateDelete = true
         taskToUpdateDelete = task
         saveOrUpdateButtonText.value = "Update"

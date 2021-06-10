@@ -29,16 +29,41 @@
             android:inputType="textPersonName" />
 
         <EditText
-            android:id="@+id/date_task"
+            android:id="@+id/desc_task"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             android:ems="10"
-            android:text="@={myTask.inputDate}"
-            android:hint="date/desc"
+            android:text="@={myTask.inputDesc}"
+            android:hint="Description"
             android:inputType="textPersonName" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <Button
+                android:id="@+id/show_date_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="7dp"
+                android:text="Pilih Tanggal"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/date_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:layout_marginTop="50sp"
+                android:layout_marginBottom="5dp"
+                android:ems="10"
+                android:hint="Tanggal Pilihan"
+                android:inputType="text" />
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -63,7 +88,11 @@
                 android:text="@={myTask.clearAllOrDeleteButtonText}"
                 android:onClick="@{()->myTask.clearAllOrDelete()}"
                 android:textSize="15sp" />
+
+
         </LinearLayout>
+
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"

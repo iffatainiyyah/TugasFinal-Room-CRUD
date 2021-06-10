@@ -1,5 +1,6 @@
 package com.unhas.ac.id.roomdb.crud.mytask.db
 
+
 class TaskRepository(private val dao: TaskDAO) {
 
     val task = dao.getAllTask();

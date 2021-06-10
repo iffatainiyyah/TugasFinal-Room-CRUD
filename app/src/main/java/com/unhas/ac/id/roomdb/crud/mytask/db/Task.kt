@@ -4,6 +4,8 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
+
+
 @Entity(tableName = "task_table")
 data class Task (
     @PrimaryKey(autoGenerate = true)
@@ -14,6 +16,9 @@ data class Task (
     @ColumnInfo(name = "name")
     var name: String,
 
-    @ColumnInfo(name = "date")
-    var date: String
+    @ColumnInfo(name = "desc")
+    var desc: String
+
+
+
 )

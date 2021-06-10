@@ -37,7 +37,8 @@ class TaskAdapter(private val clickListener: (Task)->Unit)
 class TaskViewHolder(val binding: ListitemTaskBinding): RecyclerView.ViewHolder(binding.root) {
     fun bind(task: Task, clickListener: (Task)->Unit) {
         binding.nameTextview.text = task.name
-        binding.dateTextview.text = task.date
+        binding.descTextview.text = task.desc
+
 
         binding.listitemLayout.setOnClickListener{
             clickListener(task)
